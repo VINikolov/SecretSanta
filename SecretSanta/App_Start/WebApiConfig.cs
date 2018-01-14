@@ -2,6 +2,8 @@
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
+using BusinessLogic.Implementation;
+using BusinessLogic.Interfaces;
 
 namespace SecretSanta
 {
@@ -11,6 +13,7 @@ namespace SecretSanta
         {
             var builder = new ContainerBuilder();
             //register dependencies
+            builder.RegisterType<UsersManager>().As<IUsersManager>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterWebApiFilterProvider(config);
