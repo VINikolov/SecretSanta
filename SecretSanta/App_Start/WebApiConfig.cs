@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Reflection;
 using System.Web.Http;
+using Autofac;
+using Autofac.Integration.WebApi;
 
 namespace SecretSanta
 {
@@ -9,7 +9,14 @@ namespace SecretSanta
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            var builder = new ContainerBuilder();
+            //register dependencies
+
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterWebApiFilterProvider(config);
+
+            IContainer container = builder.Build();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
