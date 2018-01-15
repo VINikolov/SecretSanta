@@ -21,8 +21,8 @@ namespace DataAccess.Implementation
 
         public Task Insert(User entity)
         {
-            const string sql = @"INSERT INTO [User] (Id, Username, Displayname, PasswordHash, AuthenticationToken) 
-                                    VALUES (@Id, @Username, @Displayname, @PasswordHash, @AuthenticationToken)";
+            const string sql = @"INSERT INTO [User] (Username, Displayname, PasswordHash) 
+                                    VALUES (@Username, @Displayname, @PasswordHash)";
 
             using (var connection = new SqlConnection(Settings.DbConnectionString))
             {

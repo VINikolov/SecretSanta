@@ -17,8 +17,6 @@ namespace BusinessLogic.Implementation
 
         public async Task CreateUser(User user)
         {
-            user.Id = Guid.NewGuid();
-            user.AuthenticationToken = CreateAuthenticationToken();
             await _usersRepository.Insert(user);
         }
 
