@@ -20,7 +20,9 @@ namespace SecretSanta.Controllers
         public async Task<HttpResponseMessage> CreateUser(User user)
         {
             await _usersManager.CreateUser(user);
-            return new HttpResponseMessage(HttpStatusCode.Created);
+            var response =
+                new HttpResponseMessage(HttpStatusCode.Created) {Content = new StringContent(user.Displayname)};
+            return response;
         }
     }
 }

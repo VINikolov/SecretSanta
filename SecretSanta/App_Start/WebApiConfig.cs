@@ -13,6 +13,7 @@ namespace SecretSanta
         {
             var builder = new ContainerBuilder();
             //register dependencies
+            BusinessLogicDependencyManager.RegisterDependencies(builder);
             builder.RegisterType<UsersManager>().As<IUsersManager>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

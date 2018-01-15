@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Dapper;
 using DataAccess.Interfaces;
 using Models;
 
@@ -19,7 +21,14 @@ namespace DataAccess.Implementation
 
         public Task Insert(User entity)
         {
-            throw new System.NotImplementedException();
+            const string sql = @"INSERT INTO [User] (Id, Username, Displayname, PasswordHash, AuthenticationToken) 
+                                    VALUES (@Id, @Username, @Displayname, @PasswordHash, @AuthenticationToken)";
+
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+                return Task.FromResult(connection.Execute(sql, entity));
+            }
         }
 
         public Task Update(User entity)
