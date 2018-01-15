@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BusinessLogic.Interfaces;
 using DataAccess.Interfaces;
-using Models;
+using Models.DataTransferModels;
 
 namespace BusinessLogic.Implementation
 {
@@ -18,12 +17,6 @@ namespace BusinessLogic.Implementation
         public async Task CreateUser(User user)
         {
             await _usersRepository.Insert(user);
-        }
-
-        private string CreateAuthenticationToken()
-        {
-            var guid = Guid.NewGuid();
-            return guid.ToString("N");
         }
     }
 }

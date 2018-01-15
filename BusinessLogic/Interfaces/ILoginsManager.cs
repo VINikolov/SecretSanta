@@ -3,8 +3,8 @@ using Models.DataTransferModels;
 
 namespace BusinessLogic.Interfaces
 {
-    public interface IUsersManager
+    public interface ILoginsManager
     {
-        Task CreateUser(User user);
+        Task<string> LoginUser(UserLogin userLogin);
     }
 }

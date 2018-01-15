@@ -3,32 +3,25 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccess.Interfaces;
-using Models;
 using Models.DataTransferModels;
 
 namespace DataAccess.Implementation
 {
-    public class UsersRepository : IUsersRepository
+    public class LoginsRepository : ILoginsRepository
     {
-        public Task<IEnumerable<User>> SelectAll()
+        public Task<IEnumerable<UserLogin>> SelectAll()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<User> SelectById(string id)
+        public Task<UserLogin> SelectById(string id)
         {
-            const string sql = @"SELECT * FROM [USER] WHERE Username = @Id";
-            using (var connection = new SqlConnection(Settings.DbConnectionString))
-            {
-                connection.Open();
-                return Task.FromResult(connection.QueryFirstOrDefault<User>(sql, new { Id = id }));
-            }
+            throw new System.NotImplementedException();
         }
 
-        public Task Insert(User entity)
+        public Task Insert(UserLogin entity)
         {
-            const string sql = @"INSERT INTO [User] (Username, Displayname, PasswordHash) 
-                                    VALUES (@Username, @Displayname, @PasswordHash)";
+            const string sql = "INSERT INTO ActiveTokens(Id, Username, AuthenticationToken) VALUES(@Id, @Username, @AuthenticationToken)";
 
             using (var connection = new SqlConnection(Settings.DbConnectionString))
             {
@@ -37,7 +30,7 @@ namespace DataAccess.Implementation
             }
         }
 
-        public Task Update(User entity)
+        public Task Update(UserLogin entity)
         {
             throw new System.NotImplementedException();
         }

@@ -9,6 +9,7 @@ namespace BusinessLogic.Implementation
         public static void RegisterDependencies(ContainerBuilder builder)
         {
             builder.RegisterType<UsersRepository>().As<IUsersRepository>();
+            builder.RegisterType<LoginsRepository>().As<ILoginsRepository>();
         }
     }
 }

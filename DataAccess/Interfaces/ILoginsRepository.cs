@@ -2,7 +2,7 @@
 
 namespace DataAccess.Interfaces
 {
-    public interface IUsersRepository : IRepository<User, string>
+    public interface ILoginsRepository : IRepository<UserLogin, string>
     {
     }
 }

@@ -15,6 +15,7 @@ namespace SecretSanta
             //register dependencies
             BusinessLogicDependencyManager.RegisterDependencies(builder);
             builder.RegisterType<UsersManager>().As<IUsersManager>();
+            builder.RegisterType<LoginsManager>().As<ILoginsManager>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterWebApiFilterProvider(config);
