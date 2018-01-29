@@ -4,6 +4,7 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using BusinessLogic.Implementation;
 using BusinessLogic.Interfaces;
+using SecretSanta.CrossDomain;
 
 namespace SecretSanta
 {
@@ -16,6 +17,8 @@ namespace SecretSanta
             BusinessLogicDependencyManager.RegisterDependencies(builder);
             builder.RegisterType<UsersManager>().As<IUsersManager>();
             builder.RegisterType<LoginsManager>().As<ILoginsManager>();
+
+            builder.RegisterType<GlobalErrorHandler>().AsWebApiExceptionFilterFor<ApiController>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterWebApiFilterProvider(config);

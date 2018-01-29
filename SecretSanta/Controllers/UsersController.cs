@@ -26,7 +26,7 @@ namespace SecretSanta.Controllers
             var json = JObject.Parse(jsonString).ToString();
 
             var response =
-                new HttpResponseMessage(HttpStatusCode.Created) {Content = new StringContent(json)};
+                new HttpResponseMessage(HttpStatusCode.Created) { Content = new StringContent(json) };
             return response;
         }
     }

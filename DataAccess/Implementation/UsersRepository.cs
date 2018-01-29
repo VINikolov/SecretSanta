@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Net;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccess.Interfaces;
-using Models;
 using Models.DataTransferModels;
+using System.Web.Http;
 
 namespace DataAccess.Implementation
 {
@@ -32,8 +33,15 @@ namespace DataAccess.Implementation
 
             using (var connection = new SqlConnection(Settings.DbConnectionString))
             {
-                connection.Open();
-                return Task.FromResult(connection.Execute(sql, entity));
+                try
+                {
+                    connection.Open();
+                    return Task.FromResult(connection.Execute(sql, entity));
+                }
+                catch (SqlException e) when(e.Number == 2627)
+                {
+                    throw new HttpResponseException(HttpStatusCode.Conflict);
+                }
             }
         }
 
