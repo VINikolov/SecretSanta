@@ -21,7 +21,7 @@ namespace DataAccess.Implementation
 
         public Task Insert(UserLogin entity)
         {
-            const string sql = "INSERT INTO ActiveTokens(Id, Username, AuthenticationToken) VALUES(@Id, @Username, @AuthenticationToken)";
+            const string sql = "INSERT INTO ActiveTokens(Username, AuthenticationToken) VALUES(@Username, @AuthenticationToken)";
 
             using (var connection = new SqlConnection(Settings.DbConnectionString))
             {
@@ -37,7 +37,12 @@ namespace DataAccess.Implementation
 
         public Task Delete(string id)
         {
-            throw new System.NotImplementedException();
+            const string sql = @"DELETE FROM ActiveTokens WHERE Username = @Id";
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+                return Task.FromResult(connection.QueryFirstOrDefault<User>(sql, new { Id = id }));
+            }
         }
     }
 }

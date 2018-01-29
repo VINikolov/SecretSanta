@@ -6,5 +6,6 @@ namespace BusinessLogic.Interfaces
     public interface ILoginsManager
     {
         Task<string> LoginUser(UserLogin userLogin);
+        Task LogoutUser(string username);
     }
 }

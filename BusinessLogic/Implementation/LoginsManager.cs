@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
-using System.Web;
+using System.Web.Http;
 using BusinessLogic.Interfaces;
 using DataAccess.Interfaces;
 using Models.DataTransferModels;
@@ -24,18 +25,22 @@ namespace BusinessLogic.Implementation
 
             if (user == null)
             {
-                throw new HttpException(404, $"User with username: {userLogin.Username} does not exist.");
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             if (user.PasswordHash != userLogin.PasswordHash)
             {
-                throw new HttpException(401, "Wrong username or password.");
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
 
             userLogin.AuthenticationToken = CreateAuthenticationToken();
-            userLogin.Id = Guid.NewGuid();
             await _loginsRepository.Insert(userLogin);
 
             return userLogin.AuthenticationToken;
+        }
+
+        public async Task LogoutUser(string username)
+        {
+            await _loginsRepository.Delete(username);
         }
 
         private string CreateAuthenticationToken()

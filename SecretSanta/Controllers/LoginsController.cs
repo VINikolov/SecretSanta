@@ -28,5 +28,12 @@ namespace SecretSanta.Controllers
             var response = new HttpResponseMessage(HttpStatusCode.Created) {Content = new StringContent(json)};
             return response;
         }
+
+        [HttpDelete]
+        [Route("api/Logins/{username}")]
+        public async Task Logout(string username)
+        {
+            await _loginsManager.LogoutUser(username);
+        }
     }
 }
