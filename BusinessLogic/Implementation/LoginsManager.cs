@@ -40,6 +40,13 @@ namespace BusinessLogic.Implementation
 
         public async Task LogoutUser(string username)
         {
+            var userLogin = await _loginsRepository.SelectById(username);
+
+            if (userLogin == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
             await _loginsRepository.Delete(username);
         }
 

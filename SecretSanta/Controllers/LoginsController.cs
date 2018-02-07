@@ -31,9 +31,11 @@ namespace SecretSanta.Controllers
 
         [HttpDelete]
         [Route("api/Logins/{username}")]
-        public async Task Logout(string username)
+        public async Task<HttpResponseMessage> Logout(string username)
         {
             await _loginsManager.LogoutUser(username);
+
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
     }
 }

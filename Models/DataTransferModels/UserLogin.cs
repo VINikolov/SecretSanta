@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Models.DataTransferModels
+﻿namespace Models.DataTransferModels
 {
     public class UserLogin
     {

@@ -4,6 +4,7 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using BusinessLogic.Implementation;
 using BusinessLogic.Interfaces;
+using SecretSanta.Controllers;
 using SecretSanta.CrossDomain;
 
 namespace SecretSanta
@@ -22,6 +23,8 @@ namespace SecretSanta
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterWebApiFilterProvider(config);
+
+            builder.RegisterType<AuthenticationFilterAttribute>().AsWebApiActionFilterFor<LoginsController>(x => x.Logout(default(string)));
 
             IContainer container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);

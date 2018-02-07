@@ -16,7 +16,13 @@ namespace DataAccess.Implementation
 
         public Task<UserLogin> SelectById(string id)
         {
-            throw new System.NotImplementedException();
+            const string sql = "SELECT * FROM ActiveTokens WHERE Username = @Id";
+
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+                return Task.FromResult(connection.QueryFirstOrDefault<UserLogin>(sql, new {Id = id}));
+            }
         }
 
         public Task Insert(UserLogin entity)
@@ -41,7 +47,7 @@ namespace DataAccess.Implementation
             using (var connection = new SqlConnection(Settings.DbConnectionString))
             {
                 connection.Open();
-                return Task.FromResult(connection.QueryFirstOrDefault<User>(sql, new { Id = id }));
+                return Task.FromResult(connection.Execute(sql, new { Id = id }));
             }
         }
     }

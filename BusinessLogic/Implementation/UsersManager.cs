@@ -18,5 +18,10 @@ namespace BusinessLogic.Implementation
         {
             await _usersRepository.Insert(user);
         }
+
+        public async Task<User> GetUserByAuthenticationToken(string authenticationToken)
+        {
+            return await _usersRepository.GetUserByAuthenticationToken(authenticationToken);
+        }
     }
 }

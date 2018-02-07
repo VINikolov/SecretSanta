@@ -54,5 +54,17 @@ namespace DataAccess.Implementation
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<User> GetUserByAuthenticationToken(string authenticationToken)
+        {
+            const string sql =
+                "SELECT * FROM [User] u JOIN ActiveTokens t ON u.Username = t.Username WHERE AuthenticationToken = @token";
+
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+                return Task.FromResult(connection.QueryFirstOrDefault<User>(sql, new {token = authenticationToken}));
+            }
+        }
     }
 }
