@@ -8,6 +8,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Autofac.Integration.WebApi;
 using BusinessLogic.Interfaces;
+using SecretSanta.Controllers;
 
 namespace SecretSanta.CrossDomain
 {
@@ -34,6 +35,8 @@ namespace SecretSanta.CrossDomain
             {
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
+
+            ((GroupsController)actionContext.ControllerContext.Controller).SetCurrentUser(user);
 
             await base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
