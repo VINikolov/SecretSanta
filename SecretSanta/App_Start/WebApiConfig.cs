@@ -25,6 +25,8 @@ namespace SecretSanta
             builder.RegisterWebApiFilterProvider(config);
 
             builder.RegisterType<AuthenticationFilterAttribute>().AsWebApiActionFilterFor<LoginsController>(x => x.Logout(default(string)));
+            builder.RegisterType<AuthenticationFilterAttribute>().AsWebApiActionFilterFor<UsersController>(x => x.GetPagedUsers(default(int), default(int), default(string), default(string)));
+            builder.RegisterType<AuthenticationFilterAttribute>().AsWebApiActionFilterFor<UsersController>(x => x.GetUser(default(string)));
 
             IContainer container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);

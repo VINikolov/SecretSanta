@@ -1,9 +1,13 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using BusinessLogic.Interfaces;
+using Models.ApiResponseModels;
 using Models.DataTransferModels;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace SecretSanta.Controllers
@@ -27,6 +31,29 @@ namespace SecretSanta.Controllers
 
             var response =
                 new HttpResponseMessage(HttpStatusCode.Created) { Content = new StringContent(json) };
+            return response;
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetPagedUsers(int skip, int take, string order, string searchPhrase = null)
+        {
+            var users = await _usersManager.GetPagedUsers(skip, take, order, searchPhrase);
+            var usersResponseModels = Mapper.Map<List<UserResponseModel>>(users);
+            var jsonUsers = JsonConvert.SerializeObject(usersResponseModels);
+
+            var response = new HttpResponseMessage { Content = new StringContent(jsonUsers) };
+            return response;
+        }
+
+        [HttpGet]
+        [Route("api/Users/{username}")]
+        public async Task<HttpResponseMessage> GetUser(string username)
+        {
+            var user = await _usersManager.GetUserByUsername(username);
+            var userResponseModel = Mapper.Map<UserResponseModel>(user);
+            var jsonUser = JsonConvert.SerializeObject(userResponseModel);
+
+            var response = new HttpResponseMessage { Content = new StringContent(jsonUser) };
             return response;
         }
     }
