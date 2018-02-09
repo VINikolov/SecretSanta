@@ -18,7 +18,12 @@ namespace DataAccess.Implementation
 
         public Task<Group> SelectById(string id)
         {
-            throw new System.NotImplementedException();
+            const string sql = @"SELECT * FROM [Group] WHERE Name = @Id";
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+                return Task.FromResult(connection.QueryFirstOrDefault<Group>(sql, new { Id = id }));
+            }
         }
 
         public Task Insert(Group entity)

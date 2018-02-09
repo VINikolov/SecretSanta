@@ -11,6 +11,7 @@ namespace BusinessLogic.Implementation
             builder.RegisterType<UsersRepository>().As<IUsersRepository>();
             builder.RegisterType<LoginsRepository>().As<ILoginsRepository>();
             builder.RegisterType<GroupsRepository>().As<IGroupsRepository>();
+            builder.RegisterType<InvitationsRepository>().As<IInvitationsRepository>();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SecretSanta
         public static void Register()
         {
             var config = new MapperConfigurationExpression();
-            config.CreateMap<UserResponseModel, User>();
+            config.CreateMap<UserResponse, User>();
             Mapper.Initialize(config);
         }
     }

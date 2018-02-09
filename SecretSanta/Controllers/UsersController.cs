@@ -38,7 +38,7 @@ namespace SecretSanta.Controllers
         public async Task<HttpResponseMessage> GetPagedUsers(int skip, int take, string order, string searchPhrase = null)
         {
             var users = await _usersManager.GetPagedUsers(skip, take, order, searchPhrase);
-            var usersResponseModels = Mapper.Map<List<UserResponseModel>>(users);
+            var usersResponseModels = Mapper.Map<List<UserResponse>>(users);
             var jsonUsers = JsonConvert.SerializeObject(usersResponseModels);
 
             var response = new HttpResponseMessage { Content = new StringContent(jsonUsers) };
@@ -50,7 +50,7 @@ namespace SecretSanta.Controllers
         public async Task<HttpResponseMessage> GetUser(string username)
         {
             var user = await _usersManager.GetUserByUsername(username);
-            var userResponseModel = Mapper.Map<UserResponseModel>(user);
+            var userResponseModel = Mapper.Map<UserResponse>(user);
             var jsonUser = JsonConvert.SerializeObject(userResponseModel);
 
             var response = new HttpResponseMessage { Content = new StringContent(jsonUser) };

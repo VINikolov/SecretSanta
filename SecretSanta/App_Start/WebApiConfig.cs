@@ -3,7 +3,7 @@ using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
 using BusinessLogic.Implementation;
-using BusinessLogic.Interfaces;
+using Models.DataTransferModels;
 using SecretSanta.Controllers;
 using SecretSanta.CrossDomain;
 
@@ -16,9 +16,7 @@ namespace SecretSanta
             var builder = new ContainerBuilder();
             //register dependencies
             BusinessLogicDependencyManager.RegisterDependencies(builder);
-            builder.RegisterType<UsersManager>().As<IUsersManager>();
-            builder.RegisterType<LoginsManager>().As<ILoginsManager>();
-            builder.RegisterType<GroupsManager>().As<IGroupsManager>();
+            DependencyManager.RegisterDependencies(builder);
 
             builder.RegisterType<GlobalErrorHandler>().AsWebApiExceptionFilterFor<ApiController>();
 
