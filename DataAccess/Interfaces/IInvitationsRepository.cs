@@ -8,5 +8,6 @@ namespace DataAccess.Interfaces
     public interface IInvitationsRepository : IRepository<GroupInvitation, Guid>
     {
         Task<IEnumerable<GroupInvitation>> GetPagedInvites(string username, int skip, int take, string order);
+        Task<GroupInvitation> SelectByParams(string username, string groupName);
     }
 }

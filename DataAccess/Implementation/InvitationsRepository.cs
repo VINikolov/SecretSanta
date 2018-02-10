@@ -49,7 +49,12 @@ namespace DataAccess.Implementation
 
         public Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            const string sql = @"DELETE FROM Invitations WHERE Id = @Id";
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+                return Task.FromResult(connection.Execute(sql, new { Id = id }));
+            }
         }
 
         public Task<IEnumerable<GroupInvitation>> GetPagedInvites(string username, int skip, int take, string order)
@@ -63,6 +68,18 @@ namespace DataAccess.Implementation
 
                 var results = connection.Query<GroupInvitation>(sql, new { username = username }).Skip(skip).Take(take);
                 return Task.FromResult(order == "ASC" ? results.OrderBy(x => x.Date).AsEnumerable() : results.OrderByDescending(x => x.Date).AsEnumerable());
+            }
+        }
+
+        public Task<GroupInvitation> SelectByParams(string username, string groupName)
+        {
+            const string sql = "SELECT * FROM Invitations WHERE InvitedUser = @username AND GroupName = @groupName";
+
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+
+                return Task.FromResult(connection.QueryFirstOrDefault<GroupInvitation>(sql, new { username = username, groupName = groupName }));
             }
         }
     }

@@ -16,12 +16,15 @@ namespace SecretSanta.Controllers
     {
         private readonly IGroupsManager _groupsManager;
         private readonly IInvitationsManager _invitationsManager;
+        private readonly IParticipantsManager _participantsManager;
         private User _currentUser;
 
-        public GroupsController(IGroupsManager groupsManager, IInvitationsManager invitationsManager)
+        public GroupsController(IGroupsManager groupsManager, IInvitationsManager invitationsManager,
+            IParticipantsManager participantsManager)
         {
             _groupsManager = groupsManager;
             _invitationsManager = invitationsManager;
+            _participantsManager = participantsManager;
         }
 
         [HttpPost]
@@ -65,6 +68,15 @@ namespace SecretSanta.Controllers
             var jsonResponse = JsonConvert.SerializeObject(invitesResponseModels);
 
             return new HttpResponseMessage { Content = new StringContent(jsonResponse) };
+        }
+
+        [HttpPost]
+        [Route("api/groups/{groupname}/participants")]
+        public async Task<HttpResponseMessage> AcceptInvite([FromUri]string groupName, [FromBody]Participant participant)
+        {
+            participant.GroupName = groupName;
+            await _participantsManager.AcceptInvite(participant);
+            return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
         public void SetCurrentUser(User user)
