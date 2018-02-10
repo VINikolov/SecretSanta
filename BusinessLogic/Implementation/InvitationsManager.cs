@@ -44,5 +44,10 @@ namespace BusinessLogic.Implementation
         {
             return await _invitationsRepository.GetPagedInvites(username, skip, take, order);
         }
+
+        public async Task RejectInvite(Guid id)
+        {
+            await _invitationsRepository.Delete(id);
+        }
     }
 }

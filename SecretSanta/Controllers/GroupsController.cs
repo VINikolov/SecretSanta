@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -77,6 +78,14 @@ namespace SecretSanta.Controllers
             participant.GroupName = groupName;
             await _participantsManager.AcceptInvite(participant);
             return new HttpResponseMessage(HttpStatusCode.Created);
+        }
+
+        [HttpDelete]
+        [Route("api/groups/invitations/{id}")]
+        public async Task<HttpResponseMessage> RejectInvite(Guid id)
+        {
+            await _invitationsManager.RejectInvite(id);
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
         public void SetCurrentUser(User user)

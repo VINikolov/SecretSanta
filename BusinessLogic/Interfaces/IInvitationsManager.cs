@@ -9,5 +9,6 @@ namespace BusinessLogic.Interfaces
     {
         Task<Guid> CreateInvitation(GroupInvitation invitation);
         Task<IEnumerable<GroupInvitation>> GetPagedInvites(string username, int skip, int take, string order);
+        Task RejectInvite(Guid id);
     }
 }
