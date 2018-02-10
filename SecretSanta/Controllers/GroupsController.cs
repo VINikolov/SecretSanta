@@ -99,6 +99,20 @@ namespace SecretSanta.Controllers
             return new HttpResponseMessage { Content = new StringContent(jsonResponse) };
         }
 
+        [HttpDelete]
+        [Route("api/groups/{groupname}/participants/{participantname}")]
+        public async Task<HttpResponseMessage> RemoveUserFromGroup(string groupName, string participantName)
+        {
+            var participantToRemove = new Participant
+            {
+                GroupName = groupName,
+                ParticipantName = participantName
+            };
+
+            await _participantsManager.RemoveParticipant(participantToRemove, _currentUser.Username);
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
+        }
+
         public void SetCurrentUser(User user)
         {
             _currentUser = user;

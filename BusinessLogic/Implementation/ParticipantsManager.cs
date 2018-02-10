@@ -52,5 +52,20 @@ namespace BusinessLogic.Implementation
 
             return await _participantsRepository.SelectByGroupName(groupName);
         }
+
+        public async Task RemoveParticipant(Participant participantToRemove, string currentUser)
+        {
+            var group = await _groupsRepository.SelectById(participantToRemove.GroupName);
+            if (!group.Admin.Equals(currentUser))
+            {
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+            }
+
+            var deletedRows = await _participantsRepository.DeleteByParams(participantToRemove);
+            if (deletedRows == 0)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+        }
     }
 }

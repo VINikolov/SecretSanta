@@ -68,5 +68,19 @@ namespace DataAccess.Implementation
                 return Task.FromResult(connection.Query<Participant>(sql, new { groupName = groupName }));
             }
         }
+
+        public Task<int> DeleteByParams(Participant participantToRemove)
+        {
+            const string sql = @"DELETE FROM GroupParticipants WHERE ParticipantName = @name AND GroupName = @groupName";
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+                return Task.FromResult(connection.Execute(sql, new
+                {
+                    name = participantToRemove.ParticipantName,
+                    groupName = participantToRemove.GroupName
+                }));
+            }
+        }
     }
 }

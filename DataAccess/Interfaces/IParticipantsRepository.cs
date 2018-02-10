@@ -9,5 +9,6 @@ namespace DataAccess.Interfaces
     {
         Task<IEnumerable<Participant>> SelectGroupsForUser(string username, int skip, int take);
         Task<IEnumerable<Participant>> SelectByGroupName(string groupName);
+        Task<int> DeleteByParams(Participant participantToRemove);
     }
 }
