@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -30,6 +31,11 @@ namespace BusinessLogic.Implementation
             participant.Id = Guid.NewGuid();
             await _participantsRepository.Insert(participant);
             await _invitationsRepository.Delete(invitation.Id);
+        }
+
+        public async Task<IEnumerable<Participant>> GetGroupsForUser(string username, int skip, int take)
+        {
+            return await _participantsRepository.SelectGroupsForUser(username, skip, take);
         }
     }
 }

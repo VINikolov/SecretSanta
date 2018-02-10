@@ -15,10 +15,12 @@ namespace SecretSanta.Controllers
     public class UsersController : ApiController
     {
         private readonly IUsersManager _usersManager;
+        private readonly IParticipantsManager _participantsManager;
 
-        public UsersController(IUsersManager usersManager)
+        public UsersController(IUsersManager usersManager, IParticipantsManager participantsManager)
         {
             _usersManager = usersManager;
+            _participantsManager = participantsManager;
         }
 
         [HttpPost]
@@ -55,6 +57,17 @@ namespace SecretSanta.Controllers
 
             var response = new HttpResponseMessage { Content = new StringContent(jsonUser) };
             return response;
+        }
+
+        [HttpGet]
+        [Route("api/Users/{username}/groups/{skip}/{take}")]
+        public async Task<HttpResponseMessage> GetGroupsForUser(string username, int skip, int take)
+        {
+            var groups = await _participantsManager.GetGroupsForUser(username, skip, take);
+            var groupResponseModels = Mapper.Map<List<GroupResponse>>(groups);
+            var jsonResponse = JsonConvert.SerializeObject(groupResponseModels);
+
+            return new HttpResponseMessage { Content = new StringContent(jsonResponse) };
         }
     }
 }
