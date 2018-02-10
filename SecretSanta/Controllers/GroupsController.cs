@@ -88,6 +88,17 @@ namespace SecretSanta.Controllers
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
+        [HttpGet]
+        [Route("api/groups/{groupname}/participants")]
+        public async Task<HttpResponseMessage> GetParticipantsInGroup(string groupName)
+        {
+            var participants = await _participantsManager.GetParticipants(groupName, _currentUser.Username);
+            var participantResponses = Mapper.Map<List<ParticipantResponse>>(participants);
+            var jsonResponse = JsonConvert.SerializeObject(participantResponses);
+
+            return new HttpResponseMessage { Content = new StringContent(jsonResponse) };
+        }
+
         public void SetCurrentUser(User user)
         {
             _currentUser = user;

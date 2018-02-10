@@ -56,5 +56,17 @@ namespace DataAccess.Implementation
                 return Task.FromResult(results.OrderBy(x => x.GroupName).AsEnumerable());
             }
         }
+
+        public Task<IEnumerable<Participant>> SelectByGroupName(string groupName)
+        {
+            const string sql = "SELECT * FROM GroupParticipants WHERE groupName = @groupName";
+
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+
+                return Task.FromResult(connection.Query<Participant>(sql, new { groupName = groupName }));
+            }
+        }
     }
 }

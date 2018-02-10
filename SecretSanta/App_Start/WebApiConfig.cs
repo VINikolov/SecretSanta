@@ -26,6 +26,7 @@ namespace SecretSanta
             builder.RegisterType<AuthenticationFilterAttribute>().AsWebApiActionFilterFor<LoginsController>(x => x.Logout(default(string)));
             builder.RegisterType<AuthenticationFilterAttribute>().AsWebApiActionFilterFor<UsersController>(x => x.GetPagedUsers(default(int), default(int), default(string), default(string)));
             builder.RegisterType<AuthenticationFilterAttribute>().AsWebApiActionFilterFor<UsersController>(x => x.GetUser(default(string)));
+            builder.RegisterType<AuthenticationFilterAttribute>().AsWebApiActionFilterFor<UsersController>(x => x.GetGroupsForUser(default(string), default(int), default(int)));
             builder.RegisterType<AuthenticationFilterAttribute>().AsWebApiActionFilterFor<GroupsController>().InstancePerRequest();
 
             IContainer container = builder.Build();

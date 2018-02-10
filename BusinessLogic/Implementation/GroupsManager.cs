@@ -24,7 +24,7 @@ namespace BusinessLogic.Implementation
             {
                 Id = Guid.NewGuid(),
                 GroupName = group.GroupName,
-                Name = group.Admin
+                ParticipantName = group.Admin
             };
             await _participantsRepository.Insert(admin);
         }

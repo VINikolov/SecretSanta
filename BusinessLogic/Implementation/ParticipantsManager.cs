@@ -13,16 +13,20 @@ namespace BusinessLogic.Implementation
     {
         private readonly IParticipantsRepository _participantsRepository;
         private readonly IInvitationsRepository _invitationsRepository;
+        private readonly IGroupsRepository _groupsRepository;
 
-        public ParticipantsManager(IParticipantsRepository participantsRepository, IInvitationsRepository invitationsRepository)
+        public ParticipantsManager(IParticipantsRepository participantsRepository,
+            IInvitationsRepository invitationsRepository,
+            IGroupsRepository groupsRepository)
         {
             _participantsRepository = participantsRepository;
             _invitationsRepository = invitationsRepository;
+            _groupsRepository = groupsRepository;
         }
 
         public async Task AcceptInvite(Participant participant)
         {
-            var invitation = await _invitationsRepository.SelectByParams(participant.Name, participant.GroupName);
+            var invitation = await _invitationsRepository.SelectByParams(participant.ParticipantName, participant.GroupName);
             if (invitation == null)
             {
                 throw new HttpResponseException(HttpStatusCode.Forbidden);
@@ -36,6 +40,17 @@ namespace BusinessLogic.Implementation
         public async Task<IEnumerable<Participant>> GetGroupsForUser(string username, int skip, int take)
         {
             return await _participantsRepository.SelectGroupsForUser(username, skip, take);
+        }
+
+        public async Task<IEnumerable<Participant>> GetParticipants(string groupName, string username)
+        {
+            var group = await _groupsRepository.SelectById(groupName);
+            if (!group.Admin.Equals(username))
+            {
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+            }
+
+            return await _participantsRepository.SelectByGroupName(groupName);
         }
     }
 }

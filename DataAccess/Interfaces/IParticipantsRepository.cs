@@ -8,5 +8,6 @@ namespace DataAccess.Interfaces
     public interface IParticipantsRepository : IRepository<Participant, Guid>
     {
         Task<IEnumerable<Participant>> SelectGroupsForUser(string username, int skip, int take);
+        Task<IEnumerable<Participant>> SelectByGroupName(string groupName);
     }
 }

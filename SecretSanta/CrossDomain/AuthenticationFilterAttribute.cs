@@ -36,7 +36,11 @@ namespace SecretSanta.CrossDomain
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
 
-            ((GroupsController)actionContext.ControllerContext.Controller).SetCurrentUser(user);
+            var controller = actionContext.ControllerContext.ControllerDescriptor.ControllerName;
+            if (controller == "Groups")
+            {
+                ((GroupsController)actionContext.ControllerContext.Controller).SetCurrentUser(user);
+            }
 
             await base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
