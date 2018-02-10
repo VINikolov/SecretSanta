@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -49,6 +50,20 @@ namespace DataAccess.Implementation
         public Task Delete(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<GroupInvitation>> GetPagedInvites(string username, int skip, int take, string order)
+        {
+            const string sql = "SELECT GroupName, Date, Admin FROM Invitations i " +
+                               "JOIN [Group] g on i.GroupName = g.Name WHERE InvitedUser = @username";
+
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+
+                var results = connection.Query<GroupInvitation>(sql, new { username = username }).Skip(skip).Take(take);
+                return Task.FromResult(order == "ASC" ? results.OrderBy(x => x.Date).AsEnumerable() : results.OrderByDescending(x => x.Date).AsEnumerable());
+            }
         }
     }
 }

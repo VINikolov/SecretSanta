@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -37,6 +38,11 @@ namespace BusinessLogic.Implementation
             await _invitationsRepository.Insert(invitation);
 
             return invitation.Id;
+        }
+
+        public async Task<IEnumerable<GroupInvitation>> GetPagedInvites(string username, int skip, int take, string order)
+        {
+            return await _invitationsRepository.GetPagedInvites(username, skip, take, order);
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using BusinessLogic.Interfaces;
 using Models.ApiResponseModels;
 using Models.DataTransferModels;
@@ -15,7 +17,7 @@ namespace SecretSanta.Controllers
         private readonly IGroupsManager _groupsManager;
         private readonly IInvitationsManager _invitationsManager;
         private User _currentUser;
-        
+
         public GroupsController(IGroupsManager groupsManager, IInvitationsManager invitationsManager)
         {
             _groupsManager = groupsManager;
@@ -48,6 +50,21 @@ namespace SecretSanta.Controllers
 
             var jsonContent = JsonConvert.SerializeObject(invitationResponse);
             return new HttpResponseMessage(HttpStatusCode.Created) { Content = new StringContent(jsonContent) };
+        }
+
+        [HttpGet]
+        [Route("api/groups/{username}/{skip}/{take}/{order}")]
+        public async Task<HttpResponseMessage> GetPagedInvites(string username, int skip, int take, string order)
+        {
+            if (!username.Equals(_currentUser.Username))
+            {
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+            }
+            var invites = await _invitationsManager.GetPagedInvites(username, skip, take, order);
+            var invitesResponseModels = Mapper.Map<List<GroupInvitationInfoResponse>>(invites);
+            var jsonResponse = JsonConvert.SerializeObject(invitesResponseModels);
+
+            return new HttpResponseMessage { Content = new StringContent(jsonResponse) };
         }
 
         public void SetCurrentUser(User user)
