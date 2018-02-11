@@ -24,11 +24,10 @@ namespace DataAccess.Implementation
         public Task Insert(Participant entity)
         {
             const string sql = @"INSERT INTO GroupParticipants (Id, ParticipantName, GroupName) 
-                                    VALUES (@Id, @Name, @GroupName)";
+                                    VALUES (@Id, @ParticipantName, @GroupName)";
 
             using (var connection = new SqlConnection(Settings.DbConnectionString))
             {
-
                 connection.Open();
                 return Task.FromResult(connection.Execute(sql, entity));
             }

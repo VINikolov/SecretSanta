@@ -32,7 +32,7 @@ namespace SecretSanta.Controllers
             group.Admin = _currentUser.Username;
             await _groupsManager.CreateGroup(group);
 
-            var jsonString = "{groupName : '" + group.GroupName + "', adminName: '" + _currentUser.Username + "'}";
+            var jsonString = "{groupName : '" + group.Name + "', adminName: '" + _currentUser.Username + "'}";
             var json = JObject.Parse(jsonString).ToString();
 
             return new HttpResponseMessage(HttpStatusCode.Created) { Content = new StringContent(json) };
