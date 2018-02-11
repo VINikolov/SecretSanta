@@ -13,6 +13,7 @@ namespace SecretSanta
             builder.RegisterType<GroupsManager>().As<IGroupsManager>();
             builder.RegisterType<InvitationsManager>().As<IInvitationsManager>();
             builder.RegisterType<ParticipantsManager>().As<IParticipantsManager>();
+            builder.RegisterType<LinksManager>().As<ILinksManager>();
         }
     }
 }
