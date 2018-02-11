@@ -41,6 +41,10 @@ namespace SecretSanta.CrossDomain
             {
                 ((GroupsController)actionContext.ControllerContext.Controller).SetCurrentUser(user);
             }
+            else if (controller == "Invitations")
+            {
+                ((InvitationsController) actionContext.ControllerContext.Controller).SetCurrentUser(user);
+            }
 
             await base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
