@@ -27,12 +27,11 @@ namespace SecretSanta.Controllers
         public async Task<HttpResponseMessage> CreateUser(User user)
         {
             await _usersManager.CreateUser(user);
-
-            var jsonString = "{displayName : '" + user.Displayname + "'}";
-            var json = JObject.Parse(jsonString).ToString();
+            var userRegResponse = Mapper.Map<UserRegistrationResponse>(user);
+            var jsonResponse = JsonConvert.SerializeObject(userRegResponse);
 
             var response =
-                new HttpResponseMessage(HttpStatusCode.Created) { Content = new StringContent(json) };
+                new HttpResponseMessage(HttpStatusCode.Created) { Content = new StringContent(jsonResponse) };
             return response;
         }
 
@@ -41,9 +40,9 @@ namespace SecretSanta.Controllers
         {
             var users = await _usersManager.GetPagedUsers(skip, take, order, searchPhrase);
             var usersResponseModels = Mapper.Map<List<UserResponse>>(users);
-            var jsonUsers = JsonConvert.SerializeObject(usersResponseModels);
+            var jsonResponse = JsonConvert.SerializeObject(usersResponseModels);
 
-            var response = new HttpResponseMessage { Content = new StringContent(jsonUsers) };
+            var response = new HttpResponseMessage { Content = new StringContent(jsonResponse) };
             return response;
         }
 
@@ -52,9 +51,9 @@ namespace SecretSanta.Controllers
         {
             var user = await _usersManager.GetUserByUsername(id);
             var userResponseModel = Mapper.Map<UserResponse>(user);
-            var jsonUser = JsonConvert.SerializeObject(userResponseModel);
+            var jsonResponse = JsonConvert.SerializeObject(userResponseModel);
 
-            var response = new HttpResponseMessage { Content = new StringContent(jsonUser) };
+            var response = new HttpResponseMessage { Content = new StringContent(jsonResponse) };
             return response;
         }
 

@@ -18,7 +18,7 @@ namespace DataAccess.Implementation
 
         public Task<Group> SelectById(string id)
         {
-            const string sql = @"SELECT * FROM [Group] WHERE Name = @Id";
+            const string sql = @"SELECT * FROM [Group] WHERE GroupName = @Id";
             using (var connection = new SqlConnection(Settings.DbConnectionString))
             {
                 connection.Open();
@@ -28,7 +28,7 @@ namespace DataAccess.Implementation
 
         public Task Insert(Group entity)
         {
-            const string sql = @"INSERT INTO [Group] (Name, Admin) 
+            const string sql = @"INSERT INTO [Group] (GroupName, Admin) 
                                     VALUES (@GroupName, @Admin)";
 
             using (var connection = new SqlConnection(Settings.DbConnectionString))
@@ -49,7 +49,7 @@ namespace DataAccess.Implementation
         {
             const string sql = @"UPDATE [Group] SET Admin = @Admin, 
                                     LinkingProcessDone = @LinkingProcessDone
-                                    WHERE Name = @Name";
+                                    WHERE GroupName = @GroupName";
 
             using (var connection = new SqlConnection(Settings.DbConnectionString))
             {

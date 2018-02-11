@@ -31,11 +31,10 @@ namespace SecretSanta.Controllers
         {
             group.Admin = _currentUser.Username;
             await _groupsManager.CreateGroup(group);
+            var groupResponse = Mapper.Map<GroupCreationResponse>(group);
+            var jsonResponse = JsonConvert.SerializeObject(groupResponse);
 
-            var jsonString = "{groupName : '" + group.Name + "', adminName: '" + _currentUser.Username + "'}";
-            var json = JObject.Parse(jsonString).ToString();
-
-            return new HttpResponseMessage(HttpStatusCode.Created) { Content = new StringContent(json) };
+            return new HttpResponseMessage(HttpStatusCode.Created) { Content = new StringContent(jsonResponse) };
         }
 
         [HttpPost]

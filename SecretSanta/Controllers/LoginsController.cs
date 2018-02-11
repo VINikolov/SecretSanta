@@ -3,7 +3,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BusinessLogic.Interfaces;
+using Models.ApiResponseModels;
 using Models.DataTransferModels;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace SecretSanta.Controllers
@@ -21,11 +23,13 @@ namespace SecretSanta.Controllers
         public async Task<HttpResponseMessage> Login(UserLogin userLogin)
         {
             var authToken = await _loginsManager.LoginUser(userLogin);
+            var loginResponse = new LoginResponse
+            {
+                AuthenticationToken = authToken
+            };
+            var jsonResponse = JsonConvert.SerializeObject(loginResponse);
 
-            var jsonString = "{authenticationToken : '" + authToken + "'}";
-            var json = JObject.Parse(jsonString).ToString();
-
-            var response = new HttpResponseMessage(HttpStatusCode.Created) {Content = new StringContent(json)};
+            var response = new HttpResponseMessage(HttpStatusCode.Created) {Content = new StringContent(jsonResponse)};
             return response;
         }
 
