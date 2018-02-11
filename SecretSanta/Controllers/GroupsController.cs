@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ using BusinessLogic.Interfaces;
 using Models.ApiResponseModels;
 using Models.DataTransferModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace SecretSanta.Controllers
 {
