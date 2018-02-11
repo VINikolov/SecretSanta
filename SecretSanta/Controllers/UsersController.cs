@@ -48,10 +48,9 @@ namespace SecretSanta.Controllers
         }
 
         [HttpGet]
-        [Route("api/Users/{username}")]
-        public async Task<HttpResponseMessage> GetUser(string username)
+        public async Task<HttpResponseMessage> GetUser(string id)
         {
-            var user = await _usersManager.GetUserByUsername(username);
+            var user = await _usersManager.GetUserByUsername(id);
             var userResponseModel = Mapper.Map<UserResponse>(user);
             var jsonUser = JsonConvert.SerializeObject(userResponseModel);
 

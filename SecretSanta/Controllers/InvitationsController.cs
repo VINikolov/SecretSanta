@@ -38,7 +38,7 @@ namespace SecretSanta.Controllers
         }
 
         [HttpGet]
-        [Route("api/groups/{username}/{skip}/{take}/{order}")]
+        [Route("api/users/{username}/{skip}/{take}/{order}")]
         public async Task<HttpResponseMessage> GetPagedInvites(string username, int skip, int take, string order)
         {
             if (!username.Equals(_currentUser.Username))
@@ -53,7 +53,6 @@ namespace SecretSanta.Controllers
         }
 
         [HttpDelete]
-        [Route("api/groups/invitations/{id}")]
         public async Task<HttpResponseMessage> RejectInvite(Guid id)
         {
             await _invitationsManager.RejectInvite(id);

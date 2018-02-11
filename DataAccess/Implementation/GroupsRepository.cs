@@ -47,7 +47,15 @@ namespace DataAccess.Implementation
 
         public Task Update(Group entity)
         {
-            throw new System.NotImplementedException();
+            const string sql = @"UPDATE [Group] SET Admin = @Admin, 
+                                    LinkingProcessDone = @LinkingProcessDone
+                                    WHERE Name = @Name";
+
+            using (var connection = new SqlConnection(Settings.DbConnectionString))
+            {
+                connection.Open();
+                return Task.FromResult(connection.Execute(sql, entity));
+            }
         }
 
         public Task Delete(string id)
